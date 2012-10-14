@@ -1,0 +1,39 @@
+%!PS-Adobe-1.0
+
+/init {
+    72 25.4 div dup scale
+    0 setlinecap
+    1 setlinewidth
+} def
+
+save /cleanslate exch def
+
+    /width 100 def
+    /x0 210 width sub 2 div def
+    /y0 50 def
+    /x1 x0 width add def
+    /y1 y0 0 add def
+    
+    init
+
+    x0 y0 moveto
+    x1 y1 lineto
+
+    0.5 setgray
+    stroke
+
+    /tan { dup sin exch cos div } def
+    /angle 45 def
+    /xs x1 x0 add 2 div def
+    /ys y1 y0 add 2 div width 2 div angle tan mul add def
+    
+    x0 y0 moveto
+    xs ys lineto
+    x1 y1 lineto
+
+    0 setgray
+    stroke
+
+    showpage
+    
+cleanslate restore
