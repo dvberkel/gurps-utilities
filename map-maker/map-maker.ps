@@ -6,38 +6,127 @@
     1 setlinewidth
 } def
 
+/tan { dup sin exch cos div } def
+/rrand { rand 16#7FFFFFFF div } def
+
+/randomMidPoint {
+    [/angle /currentY /currentX /oldY /oldX] dup length 9 add dict begin {exch def} forall
+	/fraction rrand 2 mul 1 sub def
+
+	/length currentX oldX sub dup mul currentY oldY sub dup mul add sqrt def
+
+	/rx currentX oldX sub length div def
+	/ry currentY oldY sub length div def
+	
+	/dl length 2 div fraction mul angle tan mul def
+	/dx dl ry neg mul def
+	/dy dl rx mul def
+	
+	/xs currentX oldX add 2 div dx add def
+	/ys currentY oldY add 2 div dy add def
+
+	xs ys
+    end
+} def 
+
+/performCommands { % [[37 51 /moveto] [34 35 /lineto] ... [/closepath]]
+    {
+	aload pop cvx exec
+    } forall
+} def
+
+/fractalizelines {
+    [/angle] dup length 8 add dict begin {exch def} forall
+	[
+	    flattenpath
+	    {
+		2 copy
+		[/startY /startX /oldY /oldX] {exch def} forall
+		
+		[startX startY /moveto]
+	    }
+	    {
+		[/currentY /currentX] {exch def} forall
+		
+		[
+		    oldX oldY currentX currentY angle randomMidPoint
+		    /lineto
+		]
+		[
+		    currentX currentY
+		    /lineto
+		]
+		
+		/oldX currentX def
+		/oldY currentY def
+	    }
+	    {
+		% Because of flattenpath no curveto segments should be present.
+	    }
+	    {
+		[
+		    oldX oldY startX startY angle randomMidPoint
+		    /lineto
+		]
+		[
+		    startX startY
+		    /lineto
+		]
+		
+		/oldX startX def
+		/oldY startY def
+	    }
+	    pathforall
+	]
+	newpath
+	performCommands
+    end
+} def
+
+
 save /cleanslate exch def
 
-    /width 100 def
-    /x0 210 width sub 2 div def
-    /y0 50 def
-    /x1 x0 width add def
-    /y1 y0 0 add def
+    /oldX 55 def
+    /oldY 50 def
+    /currentX oldX 100 add def
+    /currentY oldY 0 add def
     
     init
 
-    x0 y0 moveto
-    x1 y1 lineto
+    oldX oldY moveto
+    currentX currentY lineto
 
     0.5 setgray
     stroke
 
-    /tan { dup sin exch cos div } def
-    /angle 45 def
-    /rrand { rand 16#7FFFFFFF div } def
     7 {rrand pop} repeat
+
+    /angle 45 def
     /fraction rrand 2 mul 1 sub def
 
-    /xs x1 x0 add 2 div def
-    /ys y1 y0 add 2 div width 2 div fraction mul angle tan mul add def
+    /length currentX oldX sub dup mul currentY oldY sub dup mul add sqrt def
+
+    /rx currentX oldX sub length div def
+    /ry currentY oldY sub length div def
+
+    /dl length 2 div fraction mul angle tan mul def
+    /dx dl ry neg mul def
+    /dy dl rx mul def
     
-    x0 y0 moveto
+    /xs currentX oldX add 2 div dx add def
+    /ys currentY oldY add 2 div dy add def
+    
+    oldX oldY moveto
     xs ys lineto
-    x1 y1 lineto
+    currentX currentY lineto
 
     0 setgray
     stroke
 
+    oldX oldY moveto
+    currentX currentY lineto
+
+    stroke
     showpage
     
 cleanslate restore
