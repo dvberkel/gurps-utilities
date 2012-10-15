@@ -20,5 +20,4 @@ Utilities
 [2]: http://www.sjgames.com/gurps/ "sjgames GURPS page"
 [3]: https://github.com/dvberkel/gurps-utilities/blob/master/hex-paper/hex-paper.ps "PostScript file that generated hexagonal grid"
 [4]: http://en.wikipedia.org/wiki/PostScript "Wikipedia on PostScript"
-[3]:
-https://github.com/dvberkel/gurps-utilities/blob/master/map-maker/map-maker.ps "PostScript file that generated realistic map outline"
+[5]: https://github.com/dvberkel/gurps-utilities/blob/master/map-maker/map-maker.ps "PostScript file that generated realistic map outline"
