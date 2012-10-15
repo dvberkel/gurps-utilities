@@ -24,8 +24,12 @@ save /cleanslate exch def
 
     /tan { dup sin exch cos div } def
     /angle 45 def
+    /rrand { rand 16#7FFFFFFF div } def
+    7 {rrand pop} repeat
+    /fraction rrand 2 mul 1 sub def
+
     /xs x1 x0 add 2 div def
-    /ys y1 y0 add 2 div width 2 div angle tan mul add def
+    /ys y1 y0 add 2 div width 2 div fraction mul angle tan mul add def
     
     x0 y0 moveto
     xs ys lineto
