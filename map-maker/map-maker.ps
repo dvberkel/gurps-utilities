@@ -10,21 +10,21 @@
 /rrand { rand 16#7FFFFFFF div } def
 
 /randomMidPoint {
-    [/angle /currentY /currentX /oldY /oldX] dup length 9 add dict begin {exch def} forall
-	/fraction rrand 2 mul 1 sub def
+    9 dict begin
+	[/angle /currentY /currentX /oldX /oldY] {exch def} forall
+	/fraction 1 def
 
 	/length currentX oldX sub dup mul currentY oldY sub dup mul add sqrt def
 
 	/rx currentX oldX sub length div def
 	/ry currentY oldY sub length div def
-	
-	/dl length 2 div fraction mul angle tan mul def
+
+	/dl length 2 div angle tan mul fraction mul def
 	/dx dl ry neg mul def
 	/dy dl rx mul def
-	
+    
 	/xs currentX oldX add 2 div dx add def
 	/ys currentY oldY add 2 div dy add def
-
 	xs ys
     end
 } def 
@@ -88,43 +88,33 @@ save /cleanslate exch def
 
     /oldX 55 def
     /oldY 50 def
-    /currentX oldX 100 add def
-    /currentY oldY 0 add def
+    /angle 0 def
+    /currentX oldX 100 angle cos mul add def
+    /currentY oldY 100 angle sin mul add def
     
     init
-
-    oldX oldY moveto
-    currentX currentY lineto
-
-    0.5 setgray
-    stroke
 
     7 {rrand pop} repeat
 
     /angle 45 def
-    /fraction rrand 2 mul 1 sub def
-
-    /length currentX oldX sub dup mul currentY oldY sub dup mul add sqrt def
-
-    /rx currentX oldX sub length div def
-    /ry currentY oldY sub length div def
-
-    /dl length 2 div fraction mul angle tan mul def
-    /dx dl ry neg mul def
-    /dy dl rx mul def
-    
-    /xs currentX oldX add 2 div dx add def
-    /ys currentY oldY add 2 div dy add def
     
     oldX oldY moveto
-    xs ys lineto
     currentX currentY lineto
-
-    0 setgray
-    stroke
-
-    oldX oldY moveto
-    currentX currentY lineto
+    gsave
+	0.75 setgray
+	stroke
+    grestore
+    angle fractalizelines
+    gsave
+	0.5 setgray
+	stroke
+    grestore
+    angle fractalizelines
+    gsave
+	0.25 setgray
+	stroke
+    grestore
+    angle fractalizelines
 
     stroke
     showpage
