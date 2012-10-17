@@ -1,0 +1,43 @@
+%! PS-Adobe-1.0
+
+/init {
+    72 25.4 div dup scale
+    0 setlinecap
+    1 setlinewidth
+} def
+
+/diagram {
+    [/n /R /r] dup length 0 add dict begin {exch def} forall
+	0 0 R 0 360 arc
+	r 0 moveto
+	0 0 r 0 360 arc
+	
+	/angle 360 n div def
+	/center R r add 2 div def
+	/dr R r sub 2 div def
+	
+	n {
+	    R 0 moveto
+	    center 0 dr 0 360 arc
+	    angle rotate
+	} repeat
+    end
+} def
+
+save /cleanslate exch def
+
+init
+
+/pagewidth 210 def
+/pageheight 297 def
+
+210 297 2 { 2 div exch } repeat translate
+
+
+50 60 7 diagram
+
+stroke
+
+showpage
+
+cleanslate restore
