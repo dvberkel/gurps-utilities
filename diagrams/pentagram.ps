@@ -43,10 +43,10 @@
 	/center R r add 2 div def
 	/dr R r sub 2 div def
 	
-	n {
-	    center 0 dr 0 360 cleanarc
-	    angle rotate
-	} repeat
+	0 1 n 1 sub {
+	    angle mul dup
+	    cos center mul exch sin center mul dr 0 360 cleanarc
+	} for
     end
 } def
 
