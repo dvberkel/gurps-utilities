@@ -6,19 +6,26 @@
     1 setlinewidth
 } def
 
+/cleanarc {
+    [/beta /alpha /R /y /x] dup length 0 add dict begin {exch def} forall
+	x R alpha cos mul add
+	y R alpha sin mul add
+	moveto
+	x y R alpha beta arc
+    end
+} def
+
 /diagram {
-    [/n /R /r] dup length 0 add dict begin {exch def} forall
-	0 0 R 0 360 arc
-	r 0 moveto
-	0 0 r 0 360 arc
+    [/n /R /r] dup length 3 add dict begin {exch def} forall
+	0 0 R 0 360 cleanarc
+	0 0 r 0 360 cleanarc
 	
 	/angle 360 n div def
 	/center R r add 2 div def
 	/dr R r sub 2 div def
 	
 	n {
-	    R 0 moveto
-	    center 0 dr 0 360 arc
+	    center 0 dr 0 360 cleanarc
 	    angle rotate
 	} repeat
     end
@@ -34,7 +41,7 @@ init
 210 297 2 { 2 div exch } repeat translate
 
 
-50 60 7 diagram
+50 60 5 diagram
 
 stroke
 
