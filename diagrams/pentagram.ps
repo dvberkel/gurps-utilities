@@ -15,6 +15,25 @@
     end
 } def
 
+/ornament {
+    [/R /dr /y1 /x1 /y0 /x0] dup length 6 add dict begin {exch def} forall
+	x0 y0 5 0 360 cleanarc
+	x1 y1 5 0 360 cleanarc
+	
+	/xm x0 x1 add 2 div def
+	/ym y0 y1 add 2 div def
+	
+	/d x1 x0 sub dup mul y1 y0 sub dup mul add sqrt def
+	/dx x1 x0 sub d div def
+	/dy y1 y0 sub d div def
+	
+	/l R dup mul d 2 div dup mul sub sqrt def
+	
+	xm l dy neg mul sub ym l dx mul sub R dr sub 0 360 cleanarc
+	xm l dy neg mul sub ym l dx mul sub R dr add 0 360 cleanarc
+    end
+} def
+
 /diagram {
     [/n /R /r] dup length 3 add dict begin {exch def} forall
 	0 0 R 0 360 cleanarc
@@ -42,6 +61,17 @@ init
 
 
 50 60 5 diagram
+
+stroke
+
+/x0 0 def /y0 0 def
+/x1 40 def /y1 30 def
+/R 50 def
+/dr 5 def
+
+x0 y0 x1 y1 dr R ornament
+
+0.5 setgray
 
 stroke
 
