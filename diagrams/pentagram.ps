@@ -35,17 +35,31 @@
 } def
 
 /diagram {
-    [/n /R /r] dup length 3 add dict begin {exch def} forall
+    [/n /R /r] dup length 5 add dict begin {exch def} forall
 	0 0 R 0 360 cleanarc
 	0 0 r 0 360 cleanarc
 	
 	/angle 360 n div def
 	/center R r add 2 div def
 	/dr R r sub 2 div def
-	
+
+	/data [
+	    0 1 n 1 sub {
+		[ exch
+		    angle mul dup
+		    cos center mul exch sin center mul
+		]
+	    } for
+	] def
+	data
+	{
+	    aload pop dr 0 360 cleanarc
+	} forall
 	0 1 n 1 sub {
-	    angle mul dup
-	    cos center mul exch sin center mul dr 0 360 cleanarc
+	    /index exch def
+	    data index get aload pop
+	    data index 2 add n mod get aload pop
+	    dr R ornament
 	} for
     end
 } def
@@ -59,22 +73,17 @@ init
 
 210 297 2 { 2 div exch } repeat translate
 
+gsave
+    /r 50 def
+    /R 60 def
+    /n 5 def
 
-50 60 5 diagram
+    0 0 R 0 360 arc clip newpath
+    r R n diagram
 
-stroke
-
-/x0 0 def /y0 0 def
-/x1 40 def /y1 30 def
-/R 50 def
-/dr 5 def
-
-x0 y0 x1 y1 dr R ornament
-
-0.5 setgray
-
-stroke
-
+    
+    stroke
+grestore
 showpage
 
 cleanslate restore
